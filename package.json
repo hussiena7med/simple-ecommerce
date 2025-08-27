@@ -16,7 +16,16 @@
     "db:create": "npx sequelize-cli db:create",
     "db:setup": "node setup-db.js",
     "lint": "echo \"Linting not configured yet\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "test:category": "jest tests/category.test.ts",
+    "test:product": "jest tests/product.test.ts",
+    "test:product-simple": "jest tests/product-simple.test.ts",
+    "test:product-working": "jest tests/product-working.test.ts",
+    "test:debug": "jest tests/debug-product.test.ts",
+    "test:manual": "jest tests/manual-debug.test.ts",
+    "test:product-final": "jest tests/product-final.test.ts",
+    "test:product-complete": "jest tests/product-complete.test.ts",
+    "test:all": "jest tests/"
   },
   "keywords": [
     "typescript",
