@@ -45,12 +45,34 @@ class App {
 
   private initializeSwagger(): void {
     // Only setup Swagger in development
-    if (process.env.NODE_ENV !== "production") {
+    if (process.env.NODE_ENV !== 'production') {
       try {
-        setupSwagger(this.app);
-        console.log("📚 Swagger documentation initialized successfully");
+        const swaggerJSDoc = require('swagger-jsdoc');
+        const swaggerUi = require('swagger-ui-express');
+
+        const options = {
+          definition: {
+            openapi: '3.0.0',
+            info: {
+              title: 'Simple E-commerce API',
+              version: '1.0.0',
+              description: 'A simple e-commerce API built with Express and TypeScript',
+            },
+            servers: [
+              {
+                url: 'http://localhost:3000',
+                description: 'Development server',
+              },
+            ],
+          },
+          apis: [__dirname + '/routes/*.ts'],
+        };
+
+        const specs = swaggerJSDoc(options);
+        this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+        console.log('� Swagger documentation available at http://localhost:3000/api-docs');
       } catch (error) {
-        console.error("❌ Failed to setup Swagger documentation:", error);
+        console.error('❌ Failed to setup Swagger documentation:', error);
       }
     }
   }
@@ -65,10 +87,7 @@ class App {
         success: true,
         message: "Welcome to Simple E-commerce API",
         version: "1.0.0",
-        documentation:
-          process.env.NODE_ENV !== "production"
-            ? "/api-docs"
-            : "Documentation not available in production",
+        documentation: process.env.NODE_ENV !== 'production' ? "/api-docs" : "Documentation not available in production",
         endpoints: {
           health: "/api/v1/health",
           categories: "/api/v1/categories",
